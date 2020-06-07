@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>递推算法-逆推法-存储大学4年生活费</title>
+</head>
+<body>
+	<script>
+		/*
+			// 每月领取金额
+			const FETCH = 1000;
+			// 年利率 = 1.71%
+			// 月利率 = 1.71%/12
+			// 一个月的总利率 = 本金+月利率  =	1+1.71%/12
+			const RATE = 1.001425;
+			// 存储年限
+			let year = 4;
+			// 一年12个月，总存储月
+			let month = 12 * 4;
+			// 计算每月存储金额为多少才能达到每月领取金额
+			let 	corpus = new Array(month);
+			// 末月领取金额为每月领取金额
+			corpus[month-1] = FETCH;
+
+			// 计算剩余每月需存储金额
+			for (let i=month-2; i>=0; i--) {
+				// 当月存储金额 = (上月存储金额+每月领取金额) / 月利率
+				corpus[i] = (corpus[i+1] + FETCH) / RATE;
+			}
+
+			// 打印每月需存储金额
+			for (let i=corpus.length-1; i>=0; i--) {
+				console.log("第%d月末本利舍计：%f\n", i+1, corpus[i]);
+			}
+		*/
+
+		/**
+			* @desc 根据存储年限、年利率、每月领取金额来计算要支付的存款
+			*
+			* @params YEAR {Number} 存储年限
+			* @params YEAR_RATE {Number} 存储年利率，直接把年利率传入即可，不要带%
+			* @params MONTH_FETCH {Number} 每月领取金额
+			*
+			* @returns paySavings {Number} 要支付的存款
+		*/
+		function getPaySavings(YEAR, YEAR_RATE, MONTH_FETCH) {
+			// 一个月的总利率 = 本金+月利率
+			const MONTH_RATE = 1 + YEAR_RATE / 100 / 12;
+			// 一年12个月，总存储月
+			let month = 12 * YEAR;
+			// 计算每月存储金额为多少才能达到每月领取金额
+			let 	corpus = new Array(month);
+			// 末月领取金额为每月领取金额
+			corpus[month-1] = MONTH_FETCH;
+
+			// 计算剩余每月需存储金额
+			for (let i=month-2; i>=0; i--) {
+				// 当月存储金额 = (上月存储金额+每月领取金额) / 月利率
+				corpus[i] = (corpus[i+1] + MONTH_FETCH) / MONTH_RATE;
+			}
+
+			return corpus[0];
+		}
+
+		console.log("需要一次性存储的本金为：%f", getPaySavings(4, 1.71, 1000));
+	</script>
+</body>
+</html>

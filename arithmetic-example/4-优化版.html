@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>枚举（穷举）算法-填数游戏</title>
+</head>
+<body>
+	<script>
+		// 算法描述题 * 算 = 题题题题题题
+		// 运算符支持的： + - * / %
+
+		// TODO new Function('fn', functionBody) 无法在函数主题中获取传入函数的返回值 
+
+		// 测试代码
+		/*let  originChinese = "算法描述题";
+		let  operator = "*";
+		let	multiplierChinese = "算";
+		let	resultChinese = "题题题题题题";*/
+
+		/* 定义变量 S */
+		// 这里就不做过多的参数验证了
+
+		let  originChinese = prompt("请输入要进行计算的汉字").trim();
+		let  operator = prompt("请输入要进行计算的方式，目前支持： + - * / %").trim();
+		let	multiplierChinese = prompt("请输入要进行计算的汉字，必须是第一次输入的汉字：" + originChinese).trim();
+		let	resultChinese = prompt("请输入想得到的结果汉字，必须是第一次输入的汉字：" + originChinese).trim();
+
+		let originChineseLen = originChinese.length;
+		// 定义支持法操作符
+		let operators = ['+', '-', '*', '/', '%'];
+		// 定义每个汉字代表的最小值
+		let min = 0;
+		let startMin = 1;
+		// 定义每个汉字代表的最大值
+		let max = 9;
+		// 获取第二个要计算的汉字 =》数字表现形式
+		let multiplier2 = "";
+		// 指定的结果
+		let designResult = 0;
+		// 定义计算结果
+		let computeResult = 0;
+		// 动态构建函数体
+		let functionBody ="";
+		// 汉字对象
+		let chinese = {};
+
+		// 获取数字的初始值：首位数字不能为0，最小值为1，其它位数字可以为0
+		function getInitialValue(i) {
+			switch(i) {
+				case 0:
+				case originChinese.indexOf(multiplierChinese[0]):
+				case originChinese.indexOf(resultChinese[0]):
+					return startMin;
+				default:
+					return min;
+			}
+		}
+
+		// 计算是否存在结果
+		function isExist() {
+			multiplier2 = "";
+			designResult = 0;
+			computeResult = 0;
+
+			for (let i=multiplierChinese.length-1; i>=0; i--) {
+				multiplier2 += chinese["x" + originChinese.indexOf(multiplierChinese[i])];
+			}
+			multiplier2 = Number(multiplier2);
+
+			for (let i=resultChinese.length-1; i>=0; i--) {
+				designResult += chinese["x" + originChinese.indexOf(resultChinese[i])] * Math.pow(10, i);
+			}
+
+			for (let i=0; i<originChineseLen; i++) {
+				computeResult += chinese["x"+i] * Math.pow(10, originChineseLen-1-i);
+			}
+
+			switch (operator) {
+				case operators[0]:
+					computeResult += multiplier2;
+					break;
+				case operators[1]:
+					computeResult -= multiplier2;
+					break;
+				case operators[2]:
+					computeResult *= multiplier2;
+					break;
+				case operators[3]:
+					computeResult /= multiplier2;
+					break;
+				case operators[4]:
+					computeResult %= multiplier2;
+					break;
+				default:
+					break;
+			}
+
+			if(computeResult === designResult) { return true; }
+		}
+
+		// 注册汉字属性
+		for (let i=0; i<originChineseLen; i++) {
+			functionBody += `for (chinese["x"+${i}]=${getInitialValue(i)}; chinese["x"+${i}]<=max; chinese["x"+${i}]+=1) {\n`;
+		}
+
+		// TODO 无奈只能暂时直接把函数写进去		
+		// if (i === 0) { functionBody += "if (`${fn()}`) { return true; }\n"; }
+
+		functionBody += "if (isExist()) { return true; }\n"; 
+
+		for (let i=0; i<originChineseLen; i++) {
+			functionBody += "}\n";
+		}
+
+		functionBody += "return false;";
+
+		// 动态创建函数，获取运算结果
+		// let getResult = new Function('fn', functionBody);
+		let getResult = new Function(functionBody);
+
+		/* 定义变量 E */
+
+		// console.log(getResult);
+
+		if (getResult()) {
+			let str = "";
+			for (var key in chinese) {
+				str += chinese[key];
+			}
+			str += "\n" + operator + "   " + multiplier2 + "\n" + "_______\n" + designResult;
+			console.log(str);
+		}
+		else {
+			console.log("未找到符合条件的解");
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>使用二分法猜商品价格</title>
+</head>
+<body>
+		<script>
+			<!-- 验证输入的数据是否为正整数 -->
+			function isInteger(data) {
+			  return typeof data === "number" && data === data && data >= 0 && String(data).indexOf('.') === -1;
+			}
+
+			/* 初始化数据 S */
+			var reallyPrice = 0;
+			var maxPrice = 0;
+			var minPrice = 0;
+			var conjecturePrice = 0;
+			var conjectureCount = 0;
+			var lastMaxPrice = 0;
+			var lastMinPrice = 0;
+			var promptMsg = '';
+			/* 初始化数据 E */
+
+			/* 验证接收数据 S */
+			while (!isInteger(reallyPrice = parseInt(prompt("请输入正整数的商品真实价格"))) ) {}
+
+			while (!isInteger(maxPrice = parseInt(prompt("请输入正整数的商品最高价格，最高价格必须大于或等于真实价格，真实价格为：" + reallyPrice))) || maxPrice < reallyPrice) {}
+
+			while (!isInteger(minPrice = parseInt(prompt("请输入正整数的商品最低价格，最低价格必须小于或等于真实价格，真实价格为：" + reallyPrice))) || minPrice > reallyPrice) {}
+			/* 验证接收数据 E */
+
+			lastMaxPrice = maxPrice;
+			lastMinPrice = minPrice;
+
+			// 使用二分法反复试猜商品价格
+			while (conjecturePrice !== reallyPrice) {
+				// 反复猜测价格
+				while (!isInteger(conjecturePrice = parseInt(prompt(promptMsg + "商品的试猜价格必须是正整数，试猜价格价格必须在：" + lastMinPrice + " ~ " + lastMaxPrice + " 范围内"))) || conjecturePrice < minPrice || conjecturePrice > lastMaxPrice) {
+				}
+
+				// 更新猜测次数
+				conjectureCount++;
+
+				// 猜测成功则退出
+				if (conjecturePrice === reallyPrice) { break; }
+
+				if (conjecturePrice > reallyPrice) {
+					promptMsg = "高了，";
+					lastMaxPrice = conjecturePrice;
+				}
+				else{
+					promptMsg = "低了，";
+					lastMinPrice = conjecturePrice;
+				}
+			}
+
+			alert("恭喜您猜测价格成功，您一共猜了" + conjectureCount + "，请您去前台领取商品，谢谢合作！");	
+		</script>
+</body>
+</html>

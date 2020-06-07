@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>枚举（穷举）算法-填运算符游戏</title>
+</head>
+<body>
+	<script>
+		// 存储要用来计算的运算符
+		let operator = ['+', '-', '*', '/'];
+		let operatorLen = operator.length;
+		// 存储符合条件的方案数量
+		let count = 0;
+		// 运算符循环下标
+		let j;
+		// 使用左右值来保存中间运算结果
+		let left, right;
+		// 累加运算符的符号 1表示+，-1表示-
+		let sign;
+
+		// 获取输入的数字
+		let numStr = prompt("请输入要计算的数字列表，用空格进行分离").trim();
+		// 格式化输入的数字并存储
+		let nums = numStr.split(' ').map(item => Number(item));
+		let numsLen = nums.length;
+		// 使用数组来表示4个运算符，每一项的数值： 0表示+，1表示-，2表示*，3表示/
+		let operatorNums = new Array(numsLen-1);
+		// 存储输入的结果
+		let result = parseInt(prompt("请输入结果")).trim();
+
+		function executeOperator() {
+			// 初始化首值
+			left = 0;
+			right = nums[0];
+			sign = 1;
+
+			// 循环每个运算符
+			for (var j=0; j<numsLen-1; j++) {
+				// 判断当前运算符符号
+				switch(operator[operatorNums[j]]) {
+					// +
+					case operator[0]:
+						// 计算上一次的左值
+						left += sign * right;
+						// 改变累加运算符为+号
+						sign = 1;
+						// 把下一个数赋值给右值
+						right = nums[j+1];
+						break;
+					// -
+					case operator[1]:
+						// 计算上一次的左值
+						left += sign * right;
+						// 改变累加运算符为-号
+						sign = -1;
+						// 把下一个数赋值给右值
+						right = nums[j+1];
+						break;
+					// *
+					case operator[2]:
+						// 计算右值
+						right *= nums[j+1];
+						break;
+					// /
+					case operator[3]:
+						// 计算右值
+						right /= nums[j+1];
+						break;	
+				}
+			}
+
+			// 左右值相加，如果不等于结果，则本次匹配失败
+			if (left + sign*right  === result) {
+				count++;
+
+				// 打印输入数字和匹配成功的运算符
+				var str = "第" + count + "次匹配成功：";
+				for (let k=0; k<numsLen-1; k++) {
+					str += nums[k] + " " + operator[operatorNums[k]] + " ";
+				}
+				str += nums[numsLen-1] + " = " + result;
+				// 打印最后一个数字和结果
+				console.log(str);
+			}
+		}
+
+		var str = "";
+		for (var i=0; i<numsLen-1; i++) {
+			str += `
+			for (operatorNums[${i}]=0; operatorNums[${i}]<operatorLen; operatorNums[${i}]+=1) {
+				// 运算符若是/，则第下个数不能为0
+				if (operatorNums[${i}] === operatorLen-1 && nums[${i+1}] === 0 ) { continue; }
+			`;
+		}
+		for (var i=0; i<numsLen-1; i++) {
+			if (i===0) { str += "`${fn()}`";	}
+			str += "}";
+		}
+
+		var gg = new Function('fn', str);
+
+		gg(executeOperator);
+
+		count === 0 && console.log('没有符合要求的方法');
+	</script>
+</body>
+</html>

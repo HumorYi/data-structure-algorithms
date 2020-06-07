@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>递推算法-顺推法-斐波拉契数列</title>
+</head>
+<body>
+	<script>
+		// 新的一年刚出生一对兔子，3个月大的兔子就能生一对1个月大的小兔
+		let month = 12;
+		let rabits = new Array(month+1);
+		rabits[0] = 1;
+		rabits[1] = 1;
+		for (let i=2; i<=month; i++) {
+			rabits[i] = rabits[i-1] + rabits[i-2];
+		}
+
+		rabits.forEach((rabit, i) => {
+			console.log("%d月出生的兔子总数：%d\n", i, rabit);
+		});
+
+		// 斐波那契数列函数
+		function fibonacci(n, accumulator1=1, accumulator2=1) {
+			if (n <=1) { return accumulator2; }
+
+			return fibonacci(n-1, accumulator2, accumulator1+accumulator2);
+		}
+	</script>
+</body>
+</html>

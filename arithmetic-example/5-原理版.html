@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>枚举（穷举）算法-填运算符游戏</title>
+</head>
+<body>
+	<script>
+		// 测试用例（本例只针对5位数字，如想动态输入位数，请使用优化版）：
+		// 数字列表： 5 5 5 5 5
+		// 结果: 5
+
+		// 存储要用来计算的运算符
+		let operator = ['+', '-', '*', '/'];
+		let operatorLen = operator.length;
+		// 使用数组来表示4个运算符，每一项的数值： 0表示+，1表示-，2表示*，3表示/
+		let operatorNums = new Array(operatorLen);
+		// 存储符合条件的方案数量
+		let count = 0;
+		// 运算符循环下标
+		let j;
+		// 使用左右值来保存中间运算结果
+		let left, right;
+		// 累加运算符的符号 1表示+，-1表示-
+		let sign;
+
+		// 获取输入的数字
+		let numStr = prompt("请输入5个数字，用空格进行分离").trim();
+		// 格式化输入的数字并存储
+		let nums = numStr.split(' ').map(item => Number(item));
+		let numsLen = nums.length;
+
+		// 存储输入的结果
+		let result = parseInt(prompt("请输入结果")).trim();
+
+		// 循环运算符
+		for (operatorNums[0]=0; operatorNums[0]<operatorLen; operatorNums[0]+=1) {
+			// 运算符若是/，则第1个数不能为0
+			if (operatorNums[0] === operatorLen-1 && nums[1] === 0 ) { continue; }
+
+			for (operatorNums[1]=0; operatorNums[1]<operatorLen; operatorNums[1]+=1) {
+				// 运算符若是/，则第2个数不能为0
+				if (operatorNums[1] === operatorLen-1 && nums[2] === 0 ) { continue; }
+
+				for (operatorNums[2]=0; operatorNums[2]<operatorLen; operatorNums[2]+=1) {
+					// 运算符若是/，则第3个数不能为0
+					if (operatorNums[2] === operatorLen-1 && nums[3] === 0 ) { continue; }
+
+					for (operatorNums[3]=0; operatorNums[3]<operatorLen; operatorNums[3]+=1) {
+						// 运算符若是/，则第4个数不能为0
+						if (operatorNums[3] === operatorLen-1 && nums[4] === 0 ) { continue; }
+
+						// 初始化首值
+						left = 0;
+						right = nums[0];
+						sign = 1;
+
+						// 循环每个运算符
+						for (j=0; j<operatorLen; j++) {
+							// 判断当前运算符符号
+							switch(operator[operatorNums[j]]) {
+								// +
+								case operator[0]:
+									// 计算上一次的左值
+									left += sign * right;
+									// 改变累加运算符为+号
+									sign = 1;
+									// 把下一个数赋值给右值
+									right = nums[j+1];
+									break;
+								// -
+								case operator[1]:
+									// 计算上一次的左值
+									left += sign * right;
+									// 改变累加运算符为-号
+									sign = -1;
+									// 把下一个数赋值给右值
+									right = nums[j+1];
+									break;
+								// *
+								case operator[2]:
+									// 计算右值
+									right *= nums[j+1];
+									break;
+								// /
+								case operator[3]:
+									// 计算右值
+									right /= nums[j+1];
+									break;	
+							}
+						}
+
+						// 左右值相加，如果不等于结果，则本次匹配失败
+						if (left + sign*right  !== result) { continue; }
+
+						count++;
+
+						// 打印输入数字和匹配成功的运算符
+						var str = "第" + count + "次匹配成功：";
+						for (let k=0; k<operatorLen; k++) {
+							str += nums[k] + " " + operator[operatorNums[k]] + " ";
+						}
+						str += nums[nums.length-1] + " = " + result;
+						// 打印最后一个数字和结果
+						console.log(str);
+					}
+				}
+			}
+		}
+
+		count === 0 && console.log('没有符合要求的方法');
+	</script>
+</body>
+</html>
