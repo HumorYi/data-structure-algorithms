@@ -1,2 +1,2 @@
-# data-structure-arithmetic
-data-structure-arithmetic
+# data-structure-algorithms
+data-structure-algorithms
