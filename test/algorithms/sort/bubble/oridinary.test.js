@@ -1,4 +1,4 @@
-import ordinaryBucketSort from '../../../algorithms/sort/bucket/ordinary'
+import ordinaryBucketSort from '../../../../algorithms/sort/bucket/ordinary'
 import cases from '../cases'
 
 describe('ordinaryBucketSort', () => {

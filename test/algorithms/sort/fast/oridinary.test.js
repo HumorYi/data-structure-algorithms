@@ -1,4 +1,4 @@
-import fastSort from '../../../algorithms/sort/fast/ordinary'
+import fastSort from '../../../../algorithms/sort/fast/ordinary'
 import cases from '../cases'
 
 describe('fastSort', () => {

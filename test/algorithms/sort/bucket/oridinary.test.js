@@ -1,4 +1,4 @@
-import ordinaryBubbleSort from '../../../algorithms/sort/bubble/ordinary'
+import ordinaryBubbleSort from '../../../../algorithms/sort/bubble/ordinary'
 import cases from '../cases'
 
 describe('ordinaryBubbleSort', () => {
