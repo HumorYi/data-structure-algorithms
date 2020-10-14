@@ -1,4 +1,4 @@
-import matches from '../../../../algorithms/enumerate/example/matches'
+import matches from '../../../../algorithms/enumerate/examples/matches'
 import cases from './cases'
 
 describe('matches', () => {
