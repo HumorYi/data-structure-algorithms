@@ -1,4 +1,4 @@
-function dfs(step, n, books = [], storage = [], result = []) {
+export default function dfs(n, step = 1, books = [], storage = [], result = []) {
   if (step === n + 1) {
     let str = ''
 
@@ -16,12 +16,10 @@ function dfs(step, n, books = [], storage = [], result = []) {
       storage[step] = i
       books[i] = true
 
-      dfs(step + 1, n, books, storage, result)
+      dfs(n, step + 1, books, storage, result)
       books[i] = undefined
     }
   }
 
   return result
 }
-
-export default n => dfs(1, n)

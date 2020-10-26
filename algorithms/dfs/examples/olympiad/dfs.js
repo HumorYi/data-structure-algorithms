@@ -1,4 +1,4 @@
-function dfs(step, n, books = [], storage = [], result = []) {
+export default function dfs(n = 9, step = 1, books = [], storage = [], result = []) {
   if (step === n + 1) {
     if (
       storage[1] * 100 + storage[2] * 10 + storage[3] + storage[4] * 100 + storage[5] * 10 + storage[6] ===
@@ -19,12 +19,10 @@ function dfs(step, n, books = [], storage = [], result = []) {
       storage[step] = i
       books[i] = true
 
-      dfs(step + 1, n, books, storage, result)
+      dfs(n, step + 1, books, storage, result)
       books[i] = undefined
     }
   }
 
   return result
 }
-
-export default () => dfs(1, 9)
