@@ -113,6 +113,6 @@ export default (data, startX, startY, targetX, targetY) => {
 
     head++
   }
-  console.log('result', result)
+
   return result
 }
