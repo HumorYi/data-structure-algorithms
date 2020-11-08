@@ -1,4 +1,4 @@
-import dfs from '../../../../../algorithms/dfs/examples/compute-area'
+import dfs from '../../../../../../algorithms/dfs/examples/compute-area'
 import cases from './cases'
 
 describe('dfs-compute-area', () => {
