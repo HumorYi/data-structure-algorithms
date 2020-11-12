@@ -1,11 +1,6 @@
-class Note {
-  constructor(x = 0, y = 0) {
-    this.x = x
-    this.y = y
-  }
-}
-
 export default (data, startX, startY) => {
+  // 由于接下来要直接操作 data 内数据，为了避免更改外部 data 数据，clone 一份出来操作
+  data = JSON.parse(JSON.stringify(data))
   const row = data.length
   const column = data[0].length
   const rowLastIndex = row - 1
@@ -36,34 +31,22 @@ export default (data, startX, startY) => {
   ]
   const nextLen = next.length
 
-  const queue = []
   const books = []
-  let head = 0
-  let tail = 0
 
   let tx
   let ty
-  let sum = 1
+  let sum = 0
 
   for (let i = 0; i < row; i++) {
-    for (let j = 0; j < column; j++) {
-      queue.push(new Note())
-    }
-
     books.push(Array(column).fill(undefined))
   }
 
-  books[startX][startY] = true
+  function dfs(data, startX, startY, color) {
+    data[startX][startY] = color
 
-  queue[tail].x = startX
-  queue[tail].y = startY
-
-  tail++
-
-  while (head < tail) {
     for (let i = 0; i < nextLen; i++) {
-      tx = queue[head].x + next[i].row
-      ty = queue[head].y + next[i].column
+      tx = startX + next[i].row
+      ty = startY + next[i].column
 
       // 越界
       if (tx < 0 || tx > rowLastIndex || ty < 0 || ty > columnLastIndex) {
@@ -72,16 +55,20 @@ export default (data, startX, startY) => {
 
       if (data[tx][ty] > 0 && books[tx][ty] === undefined) {
         books[tx][ty] = true
-        queue[tail].x = tx
-        queue[tail].y = ty
-
-        sum++
-        tail++
+        dfs(data, tx, ty, color)
       }
     }
-
-    head++
   }
 
-  return sum
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < column; j++) {
+      if (data[i][j] > 0) {
+        sum--
+        books[i][j] = true
+        dfs(data, i, j, sum)
+      }
+    }
+  }
+
+  return { sum: -sum, data }
 }

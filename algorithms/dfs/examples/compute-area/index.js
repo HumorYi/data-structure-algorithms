@@ -2,7 +2,7 @@ export default (data, startX, startY) => {
   const row = data.length
   const column = data[0].length
   const rowLastIndex = row - 1
-  const columnLastIndex = row - 1
+  const columnLastIndex = column - 1
 
   // 约定按顺时针方向走
   const next = [
