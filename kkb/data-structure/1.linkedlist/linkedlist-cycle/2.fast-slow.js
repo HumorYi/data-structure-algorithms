@@ -4,8 +4,8 @@
 
 !(function () {
   class Node {
-    constructor(data, next = null) {
-      this.data = data
+    constructor(val, next = null) {
+      this.val = val
       this.next = next
     }
   }

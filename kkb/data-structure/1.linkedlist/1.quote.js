@@ -1,7 +1,7 @@
 !(function () {
   class Node {
-    constructor(data, next = null) {
-      this.data = data
+    constructor(val, next = null) {
+      this.val = val
       this.next = next
     }
   }
@@ -15,7 +15,7 @@
   let p = head
   let link = ''
   while (p !== null) {
-    link += p.data + '-->'
+    link += p.val + '-->'
 
     p = p.next
   }
